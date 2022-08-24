@@ -9,8 +9,6 @@ use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 class AuthController extends Controller
 {
-    use ApiResponser;
-
     public function register(Request $request)
     {
         $attr = $request->validate([
