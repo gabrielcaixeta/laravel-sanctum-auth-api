@@ -1,0 +1,637 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Task API Documentation",
+        "version": "0.0.1"
+    },
+    "servers": [
+        {
+            "url": "https://laravel-sanctum-auth.azurewebsites.net/"
+        }
+    ],
+    "paths": {
+        "/api/v1/auth/login": {
+            "post": {
+                "tags": [
+                    "Sanctum Authentication"
+                ],
+                "summary": "Realiza o login e retorna um token de sessão",
+                "description": "retorna um token para acesso a rotas protegidas",
+                "operationId": "0e326ce09f6496b8aa071164115ce2e0",
+                "requestBody": {
+                    "content": {
+                        "body": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "gabriel@example.org"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "#sdasd$ssdaAA@"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User logged-in!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "plainTextToken": {
+                                            "type": "string",
+                                            "example": "2|MZEBxLy1zulPtND6brlf8GOPy57Q4DwYunlibXGj"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Incorrect credentials",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthorised."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/register": {
+            "post": {
+                "tags": [
+                    "Sanctum Authentication"
+                ],
+                "summary": "Cadastra um novo usuário",
+                "description": "Cadastra um novo usuário para se autenticar na aplicação",
+                "operationId": "b8abbf73d05171481cb141d1bf12056c",
+                "requestBody": {
+                    "content": {
+                        "body": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "password",
+                                    "confirm_password"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "João da Silva"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "gabriel@example.org"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "ksdasd9ssdaAA"
+                                    },
+                                    "confirm_password": {
+                                        "type": "string",
+                                        "example": "ksdasd9ssdaAA"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User logged-in!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "plainTextToken": {
+                                            "type": "string",
+                                            "example": "2|MZEBxLy1zulPtND6brlf8GOPy57Q4DwYunlibXGj"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Campos obrigatórios não foram informados ou os campos desenha não batem",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "object",
+                                            "example": "{'confirm_password':'The confirm password and password must match.'}"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/logout": {
+            "post": {
+                "tags": [
+                    "Sanctum Authentication"
+                ],
+                "summary": "Encerra a seção do usuário",
+                "description": "Encerra a seção do usuário logado",
+                "operationId": "9bcd56c32550e9746a1e3549fe19bcab",
+                "responses": {
+                    "200": {
+                        "description": "User logged-out!"
+                    }
+                }
+            }
+        },
+        "/api/v1/tasks": {
+            "get": {
+                "tags": [
+                    "Task"
+                ],
+                "summary": "Lista todas as tasks",
+                "description": "Lista todas as tasks",
+                "operationId": "ba6d95ee0baf571660c10b599bcc7855",
+                "responses": {
+                    "200": {
+                        "description": "Retorna uma array de tasks",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Retona a mensagem de erro ou sucesso",
+                                            "type": "string",
+                                            "example": "Tasks have been retrieved!"
+                                        },
+                                        "success": {
+                                            "description": "Retorna o status os sucesso",
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "description": "Retorna o vetor de tasks",
+                                                "type": "array",
+                                                "items": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "description": "ID",
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "name": {
+                                                            "description": "título da tarefa",
+                                                            "type": "string",
+                                                            "example": "tarefa 1"
+                                                        },
+                                                        "done": {
+                                                            "description": "status",
+                                                            "type": "boolean",
+                                                            "example": false
+                                                        },
+                                                        "created_at": {
+                                                            "description": "status",
+                                                            "type": "string",
+                                                            "example": "20/12/2023"
+                                                        },
+                                                        "updated_at": {
+                                                            "description": "status",
+                                                            "type": "string",
+                                                            "example": "20/12/2023"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/tasks/{id}": {
+            "get": {
+                "tags": [
+                    "Task"
+                ],
+                "summary": "Lista todas as tasks",
+                "description": "Lista todas as tasks",
+                "operationId": "4ec5276c4eaf8a6f7311461be6483e1c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Retorna os dados de uma task",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Retona a mensagem de erro ou sucesso",
+                                            "type": "string",
+                                            "example": "Task retrieved!"
+                                        },
+                                        "success": {
+                                            "description": "Retorna o status os sucesso",
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "example": {
+                                                "schema": "task",
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "ID",
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "name": {
+                                                        "description": "título da tarefa",
+                                                        "type": "string",
+                                                        "example": "tarefa 1"
+                                                    },
+                                                    "done": {
+                                                        "description": "status",
+                                                        "type": "boolean",
+                                                        "example": false
+                                                    },
+                                                    "created_at": {
+                                                        "description": "status",
+                                                        "type": "string",
+                                                        "example": "20/12/2023"
+                                                    },
+                                                    "updated_at": {
+                                                        "description": "status",
+                                                        "type": "string",
+                                                        "example": "20/12/2023"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Não encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Task"
+                ],
+                "summary": "Lista todas as tasks",
+                "description": "Lista todas as tasks",
+                "operationId": "8b0e2f5482921304142f1a6467f6ccae",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path"
+                    },
+                    {
+                        "name": "name",
+                        "in": "query"
+                    },
+                    {
+                        "name": "done",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Retorna os dados de uma task",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Retona a mensagem de erro ou sucesso",
+                                            "type": "string",
+                                            "example": "Task retrieved!"
+                                        },
+                                        "success": {
+                                            "description": "Retorna o status os sucesso",
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "example": {
+                                                "schema": "task1",
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "ID",
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "name": {
+                                                        "description": "título da tarefa",
+                                                        "type": "string",
+                                                        "example": "tarefa 1"
+                                                    },
+                                                    "done": {
+                                                        "description": "status",
+                                                        "type": "boolean",
+                                                        "example": false
+                                                    },
+                                                    "created_at": {
+                                                        "description": "status",
+                                                        "type": "string",
+                                                        "example": "20/12/2023"
+                                                    },
+                                                    "updated_at": {
+                                                        "description": "status",
+                                                        "type": "string",
+                                                        "example": "20/12/2023"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Não encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Task"
+                ],
+                "summary": "Lista todas as tasks",
+                "description": "Lista todas as tasks",
+                "operationId": "658ec6cac14e67a81f7f7bd298bbb2da",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Retorna os dados de uma task",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Retona a mensagem de erro ou sucesso",
+                                            "type": "string",
+                                            "example": "Task retrieved!"
+                                        },
+                                        "success": {
+                                            "description": "Retorna o status os sucesso",
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "example": {
+                                                "schema": "empty"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Não encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "task": {
+                "properties": {
+                    "id": {
+                        "description": "ID",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "description": "título da tarefa",
+                        "type": "string",
+                        "example": "tarefa 1"
+                    },
+                    "done": {
+                        "description": "status",
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "created_at": {
+                        "description": "status",
+                        "type": "string",
+                        "example": "20/12/2023"
+                    },
+                    "updated_at": {
+                        "description": "status",
+                        "type": "string",
+                        "example": "20/12/2023"
+                    }
+                },
+                "type": "object"
+            },
+            "task1": {
+                "properties": {
+                    "id": {
+                        "description": "ID",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "description": "título da tarefa",
+                        "type": "string",
+                        "example": "tarefa 1"
+                    },
+                    "done": {
+                        "description": "status",
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "created_at": {
+                        "description": "status",
+                        "type": "string",
+                        "example": "20/12/2023"
+                    },
+                    "updated_at": {
+                        "description": "status",
+                        "type": "string",
+                        "example": "20/12/2023"
+                    }
+                },
+                "type": "object"
+            },
+            "empty": {}
+        },
+        "securitySchemes": {
+            "bearerToken": {
+                "type": "http",
+                "description": "Acess token obtido na autenticação",
+                "name": "Authorization",
+                "in": "header",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    }
+}
